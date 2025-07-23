@@ -58,14 +58,14 @@ class Student
     new_from_db(found_student)
   end
 
-  private
-
   def update
     sql = <<-SQL
-      UPDATE students SET name = ?, grade = ? WHERE id = ?
+    UPDATE students SET name = ?, grade = ? WHERE id = ?
     SQL
     DB[:conn].execute(sql, [name, grade, id])
   end
+
+  private
 
   def insert
     sql = <<-SQL
