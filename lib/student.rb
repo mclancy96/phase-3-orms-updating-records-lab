@@ -50,6 +50,14 @@ class Student
     Student.new(student_arr[1], student_arr[2], student_arr[0])
   end
 
+  def self.find_by_name(name)
+    sql = <<-SQL
+      SELECT * FROM students where name = ?
+    SQL
+    found_student = DB[:conn].execute(sql, [name]).first
+    new_from_db(found_student)
+  end
+
   private
 
   def update
