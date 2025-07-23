@@ -46,6 +46,10 @@ class Student
     new_student.save
   end
 
+  def self.new_from_db(student_arr)
+    Student.new(student_arr[1], student_arr[2], student_arr[0])
+  end
+
   private
 
   def update
