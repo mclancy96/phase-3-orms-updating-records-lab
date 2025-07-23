@@ -1,4 +1,5 @@
 require_relative '../config/environment'
+require 'pry'
 
 class Student
   attr_accessor :name, :grade, :id
@@ -26,6 +27,30 @@ class Student
       DROP TABLE IF EXISTS students;
     SQL
 
+    DB[:conn].execute(sql)
+  end
+
+  def save
+    if id
+      sql = <<-SQL
+        UPDATE students SET name = ?, grade = ? WHERE id = ?
+      SQL
+
+      DB[:conn].execute(sql, [name, grade, id])
+    else
+      sql = <<-SQL
+        INSERT INTO students (name, grade) VALUES (?, ?)
+      SQL
+
+      DB[:conn].execute(sql, [name, grade])
+      self.id = DB[:conn].last_insert_row_id
+    end
+  end
+
+  def self.all
+    sql = <<-SQL
+      SELECT * FROM students;
+    SQL
     DB[:conn].execute(sql)
   end
 end
